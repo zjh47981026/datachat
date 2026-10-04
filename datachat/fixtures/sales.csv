@@ -1,0 +1,91 @@
+date,product,region,units,revenue
+2026-01-01,Notebook,North,37,370
+2026-01-07,Notebook,North,38,380
+2026-01-14,Notebook,North,39,390
+2026-01-21,Notebook,North,40,400
+2026-01-28,Notebook,North,41,410
+2026-01-01,Notebook,South,35,350
+2026-01-07,Notebook,South,36,360
+2026-01-14,Notebook,South,37,370
+2026-01-21,Notebook,South,38,380
+2026-01-28,Notebook,South,39,390
+2026-01-01,Headphones,North,22,1100
+2026-01-07,Headphones,North,23,1150
+2026-01-14,Headphones,North,24,1200
+2026-01-21,Headphones,North,25,1250
+2026-01-28,Headphones,North,26,1300
+2026-01-01,Headphones,South,20,1000
+2026-01-07,Headphones,South,21,1050
+2026-01-14,Headphones,South,22,1100
+2026-01-21,Headphones,South,23,1150
+2026-01-28,Headphones,South,24,1200
+2026-01-01,Desk Lamp,North,14,420
+2026-01-07,Desk Lamp,North,15,450
+2026-01-14,Desk Lamp,North,16,480
+2026-01-21,Desk Lamp,North,17,510
+2026-01-28,Desk Lamp,North,18,540
+2026-01-01,Desk Lamp,South,12,360
+2026-01-07,Desk Lamp,South,13,390
+2026-01-14,Desk Lamp,South,14,420
+2026-01-21,Desk Lamp,South,15,450
+2026-01-28,Desk Lamp,South,16,480
+2026-02-01,Notebook,North,27,270
+2026-02-07,Notebook,North,28,280
+2026-02-14,Notebook,North,29,290
+2026-02-21,Notebook,North,30,300
+2026-02-28,Notebook,North,31,310
+2026-02-01,Notebook,South,25,250
+2026-02-07,Notebook,South,26,260
+2026-02-14,Notebook,South,27,270
+2026-02-21,Notebook,South,28,280
+2026-02-28,Notebook,South,29,290
+2026-02-01,Headphones,North,24,1200
+2026-02-07,Headphones,North,25,1250
+2026-02-14,Headphones,North,26,1300
+2026-02-21,Headphones,North,27,1350
+2026-02-28,Headphones,North,28,1400
+2026-02-01,Headphones,South,22,1100
+2026-02-07,Headphones,South,23,1150
+2026-02-14,Headphones,South,24,1200
+2026-02-21,Headphones,South,25,1250
+2026-02-28,Headphones,South,26,1300
+2026-02-01,Desk Lamp,North,20,600
+2026-02-07,Desk Lamp,North,21,630
+2026-02-14,Desk Lamp,North,22,660
+2026-02-21,Desk Lamp,North,23,690
+2026-02-28,Desk Lamp,North,24,720
+2026-02-01,Desk Lamp,South,18,540
+2026-02-07,Desk Lamp,South,19,570
+2026-02-14,Desk Lamp,South,20,600
+2026-02-21,Desk Lamp,South,21,630
+2026-02-28,Desk Lamp,South,22,660
+2026-03-01,Notebook,North,17,170
+2026-03-07,Notebook,North,18,180
+2026-03-14,Notebook,North,19,190
+2026-03-21,Notebook,North,20,200
+2026-03-28,Notebook,North,21,210
+2026-03-01,Notebook,South,15,150
+2026-03-07,Notebook,South,16,160
+2026-03-14,Notebook,South,17,170
+2026-03-21,Notebook,South,18,180
+2026-03-28,Notebook,South,19,190
+2026-03-01,Headphones,North,32,1600
+2026-03-07,Headphones,North,33,1650
+2026-03-14,Headphones,North,34,1700
+2026-03-21,Headphones,North,35,1750
+2026-03-28,Headphones,North,36,1800
+2026-03-01,Headphones,South,30,1500
+2026-03-07,Headphones,South,31,1550
+2026-03-14,Headphones,South,32,1600
+2026-03-21,Headphones,South,33,1650
+2026-03-28,Headphones,South,34,1700
+2026-03-01,Desk Lamp,North,18,540
+2026-03-07,Desk Lamp,North,19,570
+2026-03-14,Desk Lamp,North,20,600
+2026-03-21,Desk Lamp,North,21,630
+2026-03-28,Desk Lamp,North,22,660
+2026-03-01,Desk Lamp,South,16,480
+2026-03-07,Desk Lamp,South,17,510
+2026-03-14,Desk Lamp,South,18,540
+2026-03-21,Desk Lamp,South,19,570
+2026-03-28,Desk Lamp,South,20,600
