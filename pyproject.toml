@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datachat-local"
+version = "1.0.0"
+description = "A local LangChain data analyst with evidence, charts, and guarded SQL"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = ["langchain==1.4.3", "langchain-ollama==1.1.0", "sqlglot==30.21.0"]
+
+[project.scripts]
+datachat = "datachat.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["datachat*"]
+
+[tool.setuptools.package-data]
+datachat = ["static/*", "fixtures/*.csv"]
