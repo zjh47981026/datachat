@@ -1,0 +1,269 @@
+{
+  "mode": "model",
+  "label": "Model answer accuracy on development fixtures",
+  "dataset": "90 synthetic sales records; January\u2013March 2026; revenue in USD",
+  "limitations": "Small public development set, not held-out or production accuracy. Equivalent results must preserve requested ordering and output fields. Safety checks measure the SQL guard, not model behavior.",
+  "passed": 6,
+  "total": 10,
+  "accuracy": 0.6,
+  "cases": [
+    {
+      "id": "total-revenue",
+      "question": "What was total revenue?",
+      "expected": [
+        [
+          65400.0
+        ]
+      ],
+      "passed": false,
+      "sql": "",
+      "error": "Enter one SELECT query, no longer than 12,000 characters."
+    },
+    {
+      "id": "monthly-revenue",
+      "question": "Show total revenue by month, earliest first.",
+      "expected": [
+        [
+          "2026-01",
+          19800.0
+        ],
+        [
+          "2026-02",
+          21600.0
+        ],
+        [
+          "2026-03",
+          24000.0
+        ]
+      ],
+      "passed": true,
+      "sql": "SELECT strftime('%Y-%m', date) AS month, SUM(revenue) AS total_revenue FROM data GROUP BY month ORDER BY month",
+      "actual": [
+        [
+          "2026-01",
+          19800
+        ],
+        [
+          "2026-02",
+          21600
+        ],
+        [
+          "2026-03",
+          24000
+        ]
+      ]
+    },
+    {
+      "id": "product-revenue",
+      "question": "Show revenue by product, highest first.",
+      "expected": [
+        [
+          "Headphones",
+          40500.0
+        ],
+        [
+          "Desk Lamp",
+          16500.0
+        ],
+        [
+          "Notebook",
+          8400.0
+        ]
+      ],
+      "passed": true,
+      "sql": "SELECT product, SUM(revenue) FROM data GROUP BY product ORDER BY SUM(revenue) DESC",
+      "actual": [
+        [
+          "Headphones",
+          40500
+        ],
+        [
+          "Desk Lamp",
+          16500
+        ],
+        [
+          "Notebook",
+          8400
+        ]
+      ]
+    },
+    {
+      "id": "regional-revenue",
+      "question": "Show revenue by region, alphabetically.",
+      "expected": [
+        [
+          "North",
+          34050.0
+        ],
+        [
+          "South",
+          31350.0
+        ]
+      ],
+      "passed": true,
+      "sql": "SELECT region, SUM(revenue) FROM data GROUP BY region ORDER BY region",
+      "actual": [
+        [
+          "North",
+          34050
+        ],
+        [
+          "South",
+          31350
+        ]
+      ]
+    },
+    {
+      "id": "order-count",
+      "question": "How many sales records are there?",
+      "expected": [
+        [
+          90
+        ]
+      ],
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM data",
+      "actual": [
+        [
+          90
+        ]
+      ]
+    },
+    {
+      "id": "top-units",
+      "question": "Which product sold the most units? Return the product and its total units.",
+      "expected": [
+        [
+          "Notebook",
+          840.0
+        ]
+      ],
+      "passed": true,
+      "sql": "SELECT product, SUM(units) FROM data GROUP BY product ORDER BY SUM(units) DESC LIMIT 1",
+      "actual": [
+        [
+          "Notebook",
+          840
+        ]
+      ]
+    },
+    {
+      "id": "march-regions",
+      "question": "Show March 2026 revenue by region, alphabetically.",
+      "expected": [
+        [
+          "North",
+          12450.0
+        ],
+        [
+          "South",
+          11550.0
+        ]
+      ],
+      "passed": true,
+      "sql": "SELECT region, SUM(revenue) AS total_revenue FROM data WHERE strftime('%Y-%m', date) = '2026-03' GROUP BY region ORDER BY region",
+      "actual": [
+        [
+          "North",
+          12450
+        ],
+        [
+          "South",
+          11550
+        ]
+      ]
+    },
+    {
+      "id": "monthly-average",
+      "question": "Show average revenue per sales record for each month, earliest first, rounded to two decimals.",
+      "expected": [
+        [
+          "2026-01",
+          660.0
+        ],
+        [
+          "2026-02",
+          720.0
+        ],
+        [
+          "2026-03",
+          800.0
+        ]
+      ],
+      "passed": false,
+      "sql": "SELECT strftime('%Y-%m', date) AS month, ROUND(AVG(re.venue), 2) FROM data GROUP BY month ORDER BY month",
+      "error": "Query rejected: no such column: re.venue"
+    },
+    {
+      "id": "largest-drop",
+      "question": "Which product had the largest revenue drop from February to March 2026? Return product and positive revenue drop.",
+      "expected": [
+        [
+          "Notebook",
+          1000.0
+        ]
+      ],
+      "passed": false,
+      "sql": "",
+      "error": "Enter one SELECT query, no longer than 12,000 characters."
+    },
+    {
+      "id": "notebook-units",
+      "question": "How many Notebook units sold in January 2026?",
+      "expected": [
+        [
+          380
+        ]
+      ],
+      "passed": false,
+      "sql": "SELECT COUNT(units) FROM data WHERE strftime('%Y-%m', date) = '2026-01' AND product = 'Notebook'",
+      "actual": [
+        [
+          10
+        ]
+      ]
+    }
+  ],
+  "safety": {
+    "passed": 6,
+    "total": 6,
+    "cases": [
+      {
+        "id": "delete",
+        "sql": "DELETE FROM data",
+        "passed": true,
+        "error": "Only one read-only SELECT query is allowed."
+      },
+      {
+        "id": "update",
+        "sql": "UPDATE data SET revenue = 0",
+        "passed": true,
+        "error": "Only one read-only SELECT query is allowed."
+      },
+      {
+        "id": "stacked",
+        "sql": "SELECT * FROM data; DROP TABLE data",
+        "passed": true,
+        "error": "Only one read-only SELECT query is allowed."
+      },
+      {
+        "id": "attach",
+        "sql": "ATTACH DATABASE '/tmp/datachat-other.db' AS other",
+        "passed": true,
+        "error": "Only one read-only SELECT query is allowed."
+      },
+      {
+        "id": "pragma",
+        "sql": "PRAGMA table_info(data)",
+        "passed": true,
+        "error": "Only one read-only SELECT query is allowed."
+      },
+      {
+        "id": "extension",
+        "sql": "SELECT load_extension('/tmp/untrusted')",
+        "passed": true,
+        "error": "Query rejected: not authorized to use function: load_extension"
+      }
+    ]
+  }
+}
