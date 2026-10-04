@@ -4,7 +4,7 @@
 
 A local data analyst built with **LangChain**, **Ollama**, and **SQLite**. Upload a dataset, ask a question in plain English, and get an executed query result, an interactive chart, and downloadable evidence. No paid API key or frontend build step is required.
 
-![DataChat workspace](docs/workspace.svg)
+![DataChat workspace](docs/workspace.svg?v=2)
 
 ## Try it
 
