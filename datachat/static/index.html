@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DataChat · A conversation with your data</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="/"
+        ><span class="brand-icon">d<span>↗</span></span
+        >DataChat<span class="version">01</span></a
+      >
+      <p class="eyebrow nav-label">YOUR ANALYTICS STUDIO</p>
+      <nav aria-label="Main navigation">
+        <button class="nav active" data-page="workspace">
+          <span>◈</span> Explore data</button
+        ><button class="nav" data-page="history">
+          <span>◷</span> Saved analyses</button
+        ><button class="nav" data-page="evaluation">
+          <span>◫</span> Evaluation lab
+        </button>
+      </nav>
+      <div class="dataset-heading">
+        <span class="eyebrow">DATA SOURCES</span
+        ><button id="add-source" aria-label="Add CSV dataset">＋</button>
+      </div>
+      <label class="sr-only" for="dataset">Selected dataset</label
+      ><select id="dataset"></select>
+      <div class="source-meta" id="source-meta">Load a dataset to begin.</div>
+      <button class="text-button" id="load-demo">↳ Load demo sales</button>
+      <div class="sidebar-bottom">
+        <span class="local-dot"></span> Local by design
+        <p>
+          LangChain + your local model.<br />Your data stays on this machine.
+        </p>
+        <a
+          href="https://github.com/zjh47981026/datachat"
+          target="_blank"
+          rel="noreferrer"
+          >View source ↗</a
+        >
+      </div>
+    </aside>
+    <div class="shell">
+      <header>
+        <span
+          >WORKSPACE <span class="slash">/</span>
+          <strong id="breadcrumb">Explore</strong></span
+        >
+        <div class="header-actions">
+          <button id="header-import" class="secondary">Import CSV ＋</button>
+          <span class="framework">◈ LangChain</span>
+        </div>
+      </header>
+      <main>
+        <div id="notice" role="status" aria-live="polite" hidden></div>
+        <section id="workspace" class="page">
+          <div class="hero">
+            <div>
+              <p class="eyebrow">LESS SPREADSHEET. MORE PERSPECTIVE.</p>
+              <h1>A conversation<br />with your <em>data.</em></h1>
+              <p class="subtitle">
+                Ask the question. Follow the evidence. Find your next insight.
+              </p>
+            </div>
+            <div class="hero-mark" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span
+              ><b>↗</b>
+            </div>
+          </div>
+          <div class="dataset-strip">
+            <div>
+              <span class="eyebrow">ACTIVE SOURCE</span
+              ><strong id="active-name">No dataset selected</strong>
+            </div>
+            <div><strong id="row-count">—</strong><span>records</span></div>
+            <div><strong id="column-count">—</strong><span>columns</span></div>
+            <button id="show-preview">Inspect data ↗</button>
+          </div>
+          <details id="preview-panel" class="panel">
+            <summary>Dataset preview & column types</summary>
+            <p class="muted" id="schema-note"></p>
+            <div class="table-scroll" id="preview-table"></div>
+          </details>
+          <section class="ask-card">
+            <div class="section-line">
+              <span class="eyebrow">01 / ASK YOUR DATA</span
+              ><span id="model-name" class="muted">Local AI</span>
+            </div>
+            <form id="ask-form">
+              <label class="sr-only" for="question">Your question</label
+              ><textarea
+                id="question"
+                rows="2"
+                maxlength="2000"
+                placeholder="Which products had the largest revenue drop last month?"
+                required
+              ></textarea>
+              <div class="ask-bottom">
+                <span>Plain English in. Inspectable SQL out.</span
+                ><button id="ask" class="primary" type="submit">
+                  Find an answer <span>↗</span>
+                </button>
+              </div>
+            </form>
+            <div class="examples">
+              <span>EXPLORE THE DEMO</span
+              ><button data-example="monthly-revenue">
+                Revenue over time ↗</button
+              ><button data-example="product-revenue">Top products ↗</button
+              ><button data-example="largest-drop">What changed? ↗</button>
+            </div>
+            <p class="tiny">
+              Example buttons run prepared SQL on synthetic sales data. “Find an
+              answer” calls your local AI model.
+            </p>
+          </section>
+          <details id="manual-panel" class="panel manual-panel">
+            <summary>Prefer to write SQL? Open the query editor ↗</summary>
+            <label class="sr-only" for="manual-sql">New SQL query</label
+            ><textarea id="manual-sql" rows="4" spellcheck="false">
+SELECT * FROM data LIMIT 20</textarea
+            >
+            <div class="sql-bottom">
+              <p class="tiny">Read-only. Works without a running AI model.</p>
+              <button id="run-manual" class="secondary">
+                Run SQL directly ↗
+              </button>
+            </div>
+          </details>
+          <div id="empty" class="empty">
+            <div class="empty-icon">↗</div>
+            <h2>Good questions lead somewhere.</h2>
+            <p>
+              Ask about your dataset, or open a prepared example to see the
+              workspace in action.
+            </p>
+          </div>
+          <section id="analysis" hidden>
+            <div class="result-heading">
+              <div>
+                <p class="eyebrow">02 / FOLLOW THE EVIDENCE</p>
+                <h2 id="result-title">Your analysis</h2>
+              </div>
+              <span id="mode-badge" class="badge"></span>
+            </div>
+            <div class="answer-card">
+              <span class="answer-mark">↳</span>
+              <div>
+                <p id="answer"></p>
+                <p id="rationale" class="muted"></p>
+                <div id="result-meta" class="tiny"></div>
+              </div>
+            </div>
+            <div class="results-grid">
+              <section class="panel chart-panel">
+                <div class="panel-head">
+                  <h3>See the shape of it</h3>
+                  <div class="segmented">
+                    <button id="chart-tab" class="selected">Chart</button
+                    ><button id="table-tab">Table</button>
+                  </div>
+                </div>
+                <div id="chart-content">
+                  <div class="chart-controls">
+                    <label
+                      >Group
+                      <select id="chart-x"></select></label
+                    ><label
+                      >Measure
+                      <select id="chart-y"></select></label
+                    ><label
+                      >View
+                      <select id="chart-type">
+                        <option value="bar">Bars</option>
+                        <option value="line">Line</option>
+                      </select></label
+                    >
+                  </div>
+                  <div id="chart"></div>
+                  <p id="chart-note" class="tiny"></p>
+                </div>
+                <div id="table-content" hidden>
+                  <div class="table-scroll" id="result-table"></div>
+                </div>
+                <div class="panel-foot">
+                  <span id="returned-count"></span
+                  ><a id="download-csv">Download CSV ↓</a>
+                </div>
+              </section>
+              <section class="panel sql-panel">
+                <div class="panel-head">
+                  <h3>The query behind it</h3>
+                  <span class="badge quiet">READ ONLY</span>
+                </div>
+                <p class="muted">
+                  Inspect or refine the query. The same validation applies to
+                  every run.
+                </p>
+                <label class="sr-only" for="sql">SQL query</label
+                ><textarea id="sql" rows="9" spellcheck="false"></textarea>
+                <div class="sql-bottom">
+                  <button id="run-sql" class="secondary">
+                    Run edited SQL ↗</button
+                  ><a id="download-report">Export report ↓</a>
+                </div>
+                <details>
+                  <summary>How this analysis ran</summary>
+                  <ol id="trace"></ol>
+                </details>
+              </section>
+            </div>
+            <p class="result-note">
+              A query can run successfully and still misunderstand your
+              question. Check the SQL and the source data.
+            </p>
+          </section>
+        </section>
+        <section id="history" class="page" hidden>
+          <p class="eyebrow">YOUR WORK, KEPT CLOSE</p>
+          <h1>Saved <em>analyses.</em></h1>
+          <p class="subtitle">
+            Revisit the question, the query, and the evidence.
+          </p>
+          <div id="history-list"></div>
+        </section>
+        <section id="evaluation" class="page" hidden>
+          <p class="eyebrow">MEASURE WHAT ACTUALLY HAPPENED</p>
+          <h1>Evidence over<br /><em>assumptions.</em></h1>
+          <p class="subtitle">
+            Known answers. Independent reference calculations. Visible failures.
+          </p>
+          <div class="evaluation-intro panel">
+            <h3>A transparent development benchmark</h3>
+            <p>
+              Ten questions about 90 synthetic sales records, plus separate SQL
+              safety checks. This button checks prepared SQL against answers
+              computed directly from the CSV. It does not measure AI accuracy.
+            </p>
+            <button id="evaluate" class="primary">
+              Run SQL regression checks ↗
+            </button>
+            <p class="tiny">
+              To test your actual local model, run
+              <code>datachat evaluate --ai</code>. The small public dataset is a
+              development set, not a held-out benchmark.
+            </p>
+          </div>
+          <div id="eval-results"></div>
+        </section>
+        <footer>
+          <span>DataChat / Ask more of your data.</span
+          ><span>Local AI · Read-only queries · Visible evidence</span>
+        </footer>
+      </main>
+    </div>
+    <dialog id="upload-dialog">
+      <form id="upload-form">
+        <div class="dialog-head">
+          <h2>A new perspective.</h2>
+          <button type="button" id="close-upload" aria-label="Close upload">
+            ×
+          </button>
+        </div>
+        <p class="muted">
+          Import a UTF-8 CSV with a header row. Up to 2 MB, 20,000 rows, and 40
+          columns.
+        </p>
+        <label for="csv-file">Choose CSV file</label
+        ><input
+          id="csv-file"
+          type="file"
+          accept=".csv,text/csv"
+          required
+        /><label for="dataset-name">Dataset name</label
+        ><input
+          id="dataset-name"
+          maxlength="120"
+          placeholder="e.g. Store sales"
+          required
+        />
+        <p class="tiny">
+          Blank cells become empty values. Headers are normalized for SQL; the
+          preview shows the column mapping. No data is sent to a cloud model.
+        </p>
+        <p id="upload-error" role="alert"></p>
+        <button class="primary" id="upload-submit" type="submit">
+          Import dataset ↗
+        </button>
+      </form>
+    </dialog>
+  </body>
+</html>
